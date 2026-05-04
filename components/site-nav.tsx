@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 const links = [
   { href: "#approche", label: "Approche" },
@@ -18,7 +17,7 @@ export default function SiteNav() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -27,70 +26,72 @@ export default function SiteNav() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500",
+        "fixed inset-x-0 top-0 z-50 transition-all duration-700",
         scrolled
-          ? "backdrop-blur-md bg-black/40 border-b border-white/10"
+          ? "bg-[#0a0807]/80 backdrop-blur-xl border-b border-white/[0.06]"
           : "bg-transparent"
       )}
     >
-      <div className="container flex items-center justify-between py-5">
+      <div className="container flex items-center justify-between h-[72px]">
         <Link
           href="#top"
-          className="font-display text-xl tracking-tight text-white"
+          className="font-display text-[1.15rem] tracking-tight text-white hover:text-gold-200 transition-colors"
         >
           Arch<span className="text-gold-300">&apos;</span>Ocktail
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8 text-sm text-white/80">
+        <nav className="hidden md:flex items-center gap-10">
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="hover:text-white transition-colors"
+              className="text-[13px] tracking-wide text-white/55 hover:text-white transition-colors duration-300"
             >
               {l.label}
             </a>
           ))}
         </nav>
 
-        <div className="hidden md:block">
-          <Button asChild variant="gold" size="sm">
-            <a href="#contact">Réserver une rencontre</a>
-          </Button>
-        </div>
+        <a
+          href="#contact"
+          className="hidden md:inline-flex items-center h-9 px-5 text-[12px] tracking-[0.08em] uppercase text-white/70 border border-white/20 rounded-full hover:bg-white hover:text-[#0a0807] transition-all duration-300"
+        >
+          Réserver
+        </a>
 
         <button
           onClick={() => setOpen((v) => !v)}
           aria-label="Menu"
-          className="md:hidden text-white"
+          className="md:hidden text-white/70 hover:text-white transition-colors"
         >
-          {open ? <X className="size-6" /> : <Menu className="size-6" />}
+          {open ? <X className="size-5" /> : <Menu className="size-5" />}
         </button>
       </div>
 
-      {/* Mobile drawer */}
       <div
         className={cn(
-          "md:hidden overflow-hidden bg-black/85 backdrop-blur-xl transition-[max-height] duration-500",
-          open ? "max-h-[400px] border-t border-white/10" : "max-h-0"
+          "md:hidden overflow-hidden transition-[max-height,opacity] duration-500",
+          open ? "max-h-[360px] opacity-100" : "max-h-0 opacity-0"
         )}
       >
-        <div className="container flex flex-col gap-1 py-4">
+        <div className="bg-[#0a0807]/97 backdrop-blur-xl border-t border-white/[0.06] px-6 py-6 flex flex-col gap-5">
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="py-3 text-white/80 hover:text-white border-b border-white/5"
+              className="text-base text-white/70 hover:text-white transition-colors"
             >
               {l.label}
             </a>
           ))}
-          <Button asChild variant="gold" size="sm" className="mt-3 self-start">
-            <a href="#contact" onClick={() => setOpen(false)}>
-              Réserver une rencontre
-            </a>
-          </Button>
+          <a
+            href="#contact"
+            onClick={() => setOpen(false)}
+            className="self-start mt-2 inline-flex items-center h-9 px-5 text-[12px] tracking-[0.08em] uppercase text-white/70 border border-white/20 rounded-full hover:bg-white hover:text-[#0a0807] transition-all duration-300"
+          >
+            Réserver
+          </a>
         </div>
       </div>
     </header>
