@@ -1,63 +1,97 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Compass, Layers, Sparkles } from "lucide-react";
+
+const vp = { once: true, margin: "-80px" };
+const ease = [0.22, 1, 0.36, 1] as const;
 
 const pillars = [
   {
-    icon: Compass,
+    n: "01",
     title: "Architecture",
-    body:
-      "Nous étudions votre lieu, votre identité, vos couleurs, votre histoire. Chaque cocktail est dessiné comme une pièce de votre univers.",
+    body: "Nous étudions votre lieu, votre identité, vos couleurs, votre histoire — chaque cocktail est une pièce de votre univers.",
   },
   {
-    icon: Layers,
+    n: "02",
     title: "Composition",
-    body:
-      "Spiritueux choisis, infusions maison, équilibre des saveurs et signature visuelle : tout est pensé pour que la première gorgée raconte déjà votre marque.",
+    body: "Spiritueux choisis, infusions maison, équilibre des saveurs et signature visuelle : la première gorgée raconte déjà votre marque.",
   },
   {
-    icon: Sparkles,
+    n: "03",
     title: "Sensation",
-    body:
-      "Service rapide ou expérience live, atelier mixologie, dégustation à l'aveugle : nous transformons un verre en moment dont on se souvient.",
+    body: "Service rapide ou expérience live, atelier, dégustation à l'aveugle — nous transformons un verre en moment dont on se souvient.",
   },
 ];
 
 export default function Approach() {
   return (
-    <section id="approche" className="relative py-28 md:py-40 bg-[#0a0807] text-white">
-      <div className="container grid lg:grid-cols-12 gap-12 lg:gap-20">
-        <div className="lg:col-span-5">
-          <div className="text-xs uppercase tracking-[0.3em] text-gold-300 mb-4">
-            Notre approche
-          </div>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-balance">
-            Le cocktail comme
-            <span className="italic text-gold-200"> architecture sensible.</span>
-          </h2>
+    <section
+      id="approche"
+      className="relative py-28 md:py-40 bg-[#0a0807] text-white"
+    >
+      {/* Top separator */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+      <div className="container">
+        {/* Label + manifesto */}
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-20 mb-20 md:mb-28">
+          <motion.div
+            className="lg:col-span-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={vp}
+            transition={{ duration: 0.9, ease }}
+          >
+            <div className="flex items-center gap-4 mb-6">
+              <span className="h-px w-8 bg-gold-300/60" />
+              <span className="text-[11px] uppercase tracking-[0.28em] text-gold-300">
+                Notre approche
+              </span>
+            </div>
+            <div className="w-px h-16 bg-white/10 ml-4 hidden lg:block" />
+          </motion.div>
+
+          <motion.div
+            className="lg:col-span-8"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={vp}
+            transition={{ duration: 1, delay: 0.1, ease }}
+          >
+            <p
+              className="font-display leading-[1.15] text-balance text-white/90"
+              style={{ fontSize: "clamp(1.85rem, 3.5vw, 3rem)" }}
+            >
+              Le cocktail comme{" "}
+              <em className="not-italic italic text-gold-200">
+                architecture sensible.
+              </em>{" "}
+              Chaque verre est pensé comme une pièce — forme, couleur, matière,
+              mémoire.
+            </p>
+          </motion.div>
         </div>
 
-        <div className="lg:col-span-7 grid sm:grid-cols-2 gap-8">
-          {pillars.map((p, i) => {
-            const Icon = p.icon;
-            return (
-              <motion.div
-                key={p.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="group relative p-6 rounded-2xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] transition-colors"
-              >
-                <div className="size-10 rounded-full bg-gold-300/10 text-gold-300 flex items-center justify-center mb-5">
-                  <Icon className="size-5" />
-                </div>
-                <h3 className="font-display text-2xl mb-2">{p.title}</h3>
-                <p className="text-white/70 leading-relaxed text-[15px]">{p.body}</p>
-              </motion.div>
-            );
-          })}
+        {/* Pillars — ligne horizontale */}
+        <div className="grid md:grid-cols-3 gap-0">
+          {pillars.map((p, i) => (
+            <motion.div
+              key={p.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={vp}
+              transition={{ duration: 0.8, delay: i * 0.12, ease }}
+              className="group relative py-10 md:px-10 first:pl-0 last:pr-0 border-t border-white/[0.08] md:border-t-0 md:border-l first:border-l-0 md:border-white/[0.08]"
+            >
+              <span className="block text-[11px] uppercase tracking-[0.25em] text-gold-300/60 mb-5 font-mono">
+                {p.n}
+              </span>
+              <h3 className="font-display text-2xl md:text-3xl mb-4 text-white/90">
+                {p.title}
+              </h3>
+              <p className="text-white/45 text-[14px] leading-[1.75]">{p.body}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

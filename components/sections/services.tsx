@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 
@@ -8,96 +9,137 @@ const services = [
   {
     n: "01",
     title: "Cartes signatures",
-    desc:
-      "Une carte de cocktails sur mesure pour votre bar, hôtel ou restaurant. Création, formation des équipes, fiches techniques.",
-    img:
-      "https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=1600&auto=format&fit=crop",
+    desc: "Création d'une carte cocktails sur mesure pour votre bar, hôtel ou restaurant. Formation des équipes, fiches techniques, identité visuelle du verre.",
+    img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=800&auto=format&fit=crop",
   },
   {
     n: "02",
     title: "Événements",
-    desc:
-      "Bar éphémère, mariages, lancements de marque. Pré-batch pour gros volumes ou prestation live devant vos invités.",
-    img:
-      "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=1600&auto=format&fit=crop",
+    desc: "Bar éphémère, mariages, lancements de marque. Pré-batch pour gros volumes ou prestation live devant vos invités.",
+    img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop",
   },
   {
     n: "03",
     title: "Ateliers mixologie",
-    desc:
-      "Une heure trente d'immersion ludique pour vos collaborateurs ou vos invités, animée par un mixologue passionné.",
-    img:
-      "https://images.unsplash.com/photo-1572116469696-31de0f17cc34?q=80&w=1600&auto=format&fit=crop",
+    desc: "Une heure trente d'immersion ludique pour vos collaborateurs ou invités, animée par un mixologue passionné.",
+    img: "https://images.unsplash.com/photo-1572116469696-31de0f17cc34?q=80&w=800&auto=format&fit=crop",
   },
   {
     n: "04",
     title: "Dégustation à l'aveugle",
-    desc:
-      "Une expérience sensorielle où chaque gorgée devient une énigme. Idéal pour des soirées privées et des team-buildings premium.",
-    img:
-      "https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=1600&auto=format&fit=crop",
+    desc: "Une expérience sensorielle où chaque gorgée devient une énigme. Idéal pour soirées privées et team-buildings premium.",
+    img: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=800&auto=format&fit=crop",
   },
 ];
 
+const ease = [0.22, 1, 0.36, 1] as const;
+
 export default function Services() {
+  const [hovered, setHovered] = useState<number | null>(null);
+
   return (
-    <section id="services" className="relative py-28 md:py-40 bg-[#0a0807] text-white">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+    <section
+      id="services"
+      className="relative py-28 md:py-40 bg-[#0a0807] text-white overflow-hidden"
+    >
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-      <div className="container">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
-          <div>
-            <div className="text-xs uppercase tracking-[0.3em] text-gold-300 mb-4">
-              Services
-            </div>
-            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-balance max-w-2xl">
-              Quatre savoir-faire,
-              <br />
-              <span className="italic text-gold-200">une seule signature.</span>
-            </h2>
-          </div>
-          <p className="text-white/60 max-w-md leading-relaxed">
-            De la création d&apos;une carte permanente au design d&apos;un instant
-            unique, nous orchestrons l&apos;expérience cocktail comme un récit
-            sur mesure.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
-          {services.map((s, i) => (
-            <motion.a
-              href="#contact"
-              key={s.n}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.8, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.02] aspect-[4/5] md:aspect-[5/6]"
+      {/* Image flottante desktop */}
+      <div className="pointer-events-none hidden lg:block absolute right-12 xl:right-20 top-1/2 -translate-y-1/2 w-[260px] h-[340px] z-10">
+        <AnimatePresence mode="wait">
+          {hovered !== null && (
+            <motion.div
+              key={hovered}
+              initial={{ opacity: 0, scale: 0.94, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.94, y: -8 }}
+              transition={{ duration: 0.45, ease }}
+              className="relative w-full h-full rounded-2xl overflow-hidden border border-white/[0.08]"
             >
               <Image
-                src={s.img}
-                alt={s.title}
+                src={services[hovered].img}
+                alt={services[hovered].title}
                 fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="object-cover scale-105 group-hover:scale-110 transition-transform duration-1000 ease-out"
+                sizes="260px"
+                className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
 
-              <div className="absolute inset-x-0 bottom-0 p-7 lg:p-9">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs uppercase tracking-[0.3em] text-gold-300">
-                    {s.n}
-                  </span>
-                  <ArrowUpRight className="size-5 text-white/70 group-hover:text-gold-300 group-hover:rotate-12 transition-all" />
-                </div>
-                <h3 className="font-display text-3xl lg:text-4xl mb-3">
+      <div className="container">
+        {/* En-tête */}
+        <div className="flex items-end justify-between mb-16 md:mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.9, ease }}
+          >
+            <div className="flex items-center gap-4 mb-5">
+              <span className="h-px w-8 bg-gold-300/60" />
+              <span className="text-[11px] uppercase tracking-[0.28em] text-gold-300">
+                Services
+              </span>
+            </div>
+            <h2
+              className="font-display leading-[1.0] text-white/90"
+              style={{ fontSize: "clamp(2.5rem, 5.5vw, 5rem)" }}
+            >
+              Ce que
+              <br />
+              <span className="italic text-gold-200">nous faisons.</span>
+            </h2>
+          </motion.div>
+
+          <span className="hidden md:block font-display text-[5rem] lg:text-[7rem] leading-none text-white/[0.04] select-none">
+            04
+          </span>
+        </div>
+
+        {/* Liste */}
+        <div className="lg:max-w-[60%]">
+          <div className="h-px bg-white/[0.07]" />
+          {services.map((s, i) => (
+            <motion.div
+              key={s.n}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.7, delay: i * 0.08, ease }}
+            >
+              <a
+                href="#contact"
+                className="group flex items-center gap-6 md:gap-10 py-7 md:py-8 cursor-pointer"
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)}
+              >
+                {/* Numéro */}
+                <span className="font-mono text-[11px] text-gold-300/50 shrink-0 w-7">
+                  {s.n}
+                </span>
+
+                {/* Titre */}
+                <span
+                  className="font-display text-2xl md:text-3xl lg:text-4xl flex-1 text-white/80 group-hover:text-white transition-colors duration-300"
+                >
                   {s.title}
-                </h3>
-                <p className="text-white/70 leading-relaxed max-w-md">
+                </span>
+
+                {/* Description — visible md+ au hover */}
+                <span className="hidden md:block text-white/30 text-[13px] leading-relaxed max-w-[220px] group-hover:text-white/55 transition-colors duration-300">
                   {s.desc}
-                </p>
-              </div>
-            </motion.a>
+                </span>
+
+                {/* Flèche */}
+                <ArrowUpRight
+                  className="size-4 md:size-5 text-white/20 group-hover:text-gold-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300 shrink-0"
+                />
+              </a>
+              <div className="h-px bg-white/[0.07]" />
+            </motion.div>
           ))}
         </div>
       </div>

@@ -1,0 +1,20 @@
+{
+  "name": "Arch'Ocktail Pro",
+  "short_name": "Arch'Ocktail",
+  "description": "Pre Batch artisanaux et fiches techniques by Arch'Ocktail",
+  "start_url": "/pro",
+  "scope": "/pro",
+  "display": "standalone",
+  "background_color": "#0a0807",
+  "theme_color": "#0a0807",
+  "orientation": "portrait-primary",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/pro/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

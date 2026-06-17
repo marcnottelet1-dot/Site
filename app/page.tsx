@@ -8,20 +8,16 @@ import Footer from "@/components/sections/footer";
 
 export default function Page() {
   return (
-    <main id="top" className="relative">
+    <main id="top" className="relative bg-[#0a0807]">
       <SiteNav />
-
-      <Hero>
-        <div className="bg-[#0a0807] text-white">
-          <Approach />
-          <section id="signature">
-            <CocktailBuild />
-          </section>
-          <Services />
-          <Contact />
-          <Footer />
-        </div>
-      </Hero>
+      <Hero />
+      <Approach />
+      <section id="signature">
+        <CocktailBuild />
+      </section>
+      <Services />
+      <Contact />
+      <Footer />
     </main>
   );
 }
